@@ -2,7 +2,7 @@ let selectedAnswers = {};
 let currentQuizId = null;
 
 window.addEventListener("DOMContentLoaded", () => {
-  fetch("https://quiz-app-2-sdfo.onrender.com/quiz/all") 
+  fetch(`https://quiz-app-2-sdfo.onrender.com/quiz/all`) 
     .then(res => {
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       return res.json();
@@ -29,7 +29,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 function loadQuestionsForQuiz(quizId) {
   selectedAnswers = {};
-  fetch("https://quiz-app-2-sdfo.onrender.com/quiz/${quizId}/questions")
+  fetch(`https://quiz-app-2-sdfo.onrender.com/quiz/${quizId}/questions`)
     .then(res => {
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       return res.json();
