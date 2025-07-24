@@ -4,5 +4,5 @@ WORKDIR /home/gradle/project
 RUN gradle clean build -x test --no-daemon
 
 FROM openjdk:17-jdk-slim
-COPY --from=build /home/gradle/project/build/libs/*.jar app.jar
+COPY --from=build /home/gradle/project/build/libs/QUIZ-APP-0.0.1-SNAPSHOT.jar app.jar
 ENTRYPOINT ["java", "-jar", "/app.jar"]
