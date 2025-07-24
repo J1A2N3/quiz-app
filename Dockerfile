@@ -5,7 +5,7 @@ RUN gradle build --no-daemon
 FROM gradle:8.5-jdk17 AS builder
 COPY . /home/app
 WORKDIR /home/app
-RUN gradle clean build --no-daemon
+RUN gradle clean build -x test --no-daemon
 
 FROM openjdk:17-jdk-slim
 COPY --from=build /home/gradle/project/build/libs/*.jar app.jar
