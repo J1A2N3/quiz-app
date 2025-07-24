@@ -14,7 +14,7 @@ document.getElementById("addQuestionForm").addEventListener("submit", function (
     }
   };
 
-  fetch("http://localhost:8082/quiz/questions", {
+  fetch("https://quiz-app-2-sdfo.onrender.com/quiz/all", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
