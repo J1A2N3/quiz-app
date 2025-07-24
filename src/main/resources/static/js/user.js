@@ -2,7 +2,7 @@ let selectedAnswers = {};
 let currentQuizId = null;
 
 window.addEventListener("DOMContentLoaded", () => {
-  fetch("http://localhost:8082/quiz/all") 
+  fetch("https://quiz-app-2-sdfo.onrender.com/quiz/all") 
     .then(res => {
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       return res.json();
