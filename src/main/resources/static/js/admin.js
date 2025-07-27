@@ -1,66 +1,78 @@
-window.addEventListener("DOMContentLoaded", async () => {
-  try {
-    const res = await fetch("https://quiz-app-2-sdfo.onrender.com/quiz/all");
-    const quizzes = await res.json();
+document.addEventListener("DOMContentLoaded", () => {
+  const quizSelect = document.getElementById("quizId");
+  const form = document.getElementById("addQuestionForm");
+  const successModal = document.getElementById("successModal");
+  const yesBtn = document.getElementById("yesBtn");
+  const noBtn = document.getElementById("noBtn");
 
-    const quizSelect = document.getElementById("quizId");
-    quizzes.forEach((quiz) => {
-      const option = document.createElement("option");
-      option.value = quiz.id;
-      option.textContent = quiz.title; // or quiz.name if that's your column
-      quizSelect.appendChild(option);
-    });
-  } catch (error) {
-    console.error("Failed to load quizzes:", error);
-    alert("Error loading quizzes. Please try again.");
+  if (!quizSelect || !form || !yesBtn || !noBtn || !successModal) {
+    console.error("⚠️ Missing critical HTML elements.");
+    return;
   }
-});
 
-
-
-document.getElementById("addQuestionForm").addEventListener("submit", async function (e) {
-  e.preventDefault();
-
-  const questionData = {
-    content: document.getElementById("questionText").value,
-    option1: document.getElementById("option1").value,
-    option2: document.getElementById("option2").value,
-    option3: document.getElementById("option3").value,
-    option4: document.getElementById("option4").value,
-    answer: document.getElementById("answer").value,
-    topic: document.getElementById("topic").value,
-    quiz: {
-      id: parseInt(document.getElementById("quizId").value)
-    }
-  };
-
-  try {
-    const res = await fetch("https://quiz-app-2-sdfo.onrender.com/${questionData.quiz.id}question", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(questionData)
+  // Load quizzes
+  fetch("https://quiz-app-2-sdfo.onrender.com/quiz/all")
+    .then(res => res.json())
+    .then(quizzes => {
+      quizzes.forEach(quiz => {
+        const option = document.createElement("option");
+        option.value = quiz.id;
+        option.textContent = quiz.title;
+        quizSelect.appendChild(option);
+      });
+    })
+    .catch(error => {
+      console.error("Failed to load quizzes:", error);
+      alert("Error loading quizzes.");
     });
 
-    if (res.ok) {
-      document.getElementById("successModal").style.display = "flex";
-    } else {
-      const errorMsg = await res.text();
-      alert("Failed to add question.\n" + errorMsg);
-      console.error("Error:", errorMsg);
+  // Form submit
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const quizId = parseInt(quizSelect.value);
+    if (isNaN(quizId)) {
+      alert("Please select a valid quiz.");
+      return;
     }
-  } catch (error) {
-    alert("Error connecting to backend.");
-    console.error("Exception:", error);
-  }
-});
 
-document.getElementById("yesBtn").addEventListener("click", () => {
-  document.getElementById("successModal").style.display = "none";
-  document.getElementById("addQuestionForm").reset();
-});
+    const questionData = {
+      content: document.getElementById("questionText").value,
+      option1: document.getElementById("option1").value,
+      option2: document.getElementById("option2").value,
+      option3: document.getElementById("option3").value,
+      option4: document.getElementById("option4").value,
+      answer: document.getElementById("answer").value,
+      topic: document.getElementById("topic").value,
+      quiz: { id: quizId }
+    };
 
-document.getElementById("noBtn").addEventListener("click", () => {
-  window.location.href = "login.html"; // or wherever you want to redirect
+    try {
+      const res = await fetch(`https://quiz-app-2-sdfo.onrender.com/question/${questionData.quiz.id}/questions`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(questionData)
+      });
+
+      if (res.ok) {
+        successModal.style.display = "flex";
+      } else {
+        const msg = await res.text();
+        alert("Failed to add question:\n" + msg);
+      }
+    } catch (err) {
+      console.error("Network/server error:", err);
+      alert("Error connecting to backend.");
+    }
+  });
+
+  // Modal buttons
+  yesBtn.addEventListener("click", () => {
+    successModal.style.display = "none";
+    form.reset();
+  });
+
+  noBtn.addEventListener("click", () => {
+    window.location.href = "login.html";
+  });
 });

@@ -22,7 +22,7 @@ public class quizservice {
     }
 
     public quiz createQuiz(quiz quiz) {
-        quiz.getQuestions().forEach(q -> q.setQuiz(quiz)); // link each question to quiz
+        quiz.getQuestions().forEach(q -> q.setQuiz(quiz)); 
         return quizRepo.save(quiz);
     }
     
