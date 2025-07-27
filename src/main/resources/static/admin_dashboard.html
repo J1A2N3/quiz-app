@@ -15,8 +15,10 @@
     <input type="text" id="option4" placeholder="Option 4" required><br>
     <input type="text" id="answer" placeholder="Answer" required><br>
     <input type="text" id="topic" placeholder="Topic" required><br>
-	<input type="number" id="quizId" value="1" hidden required>
-    <button type="submit">Submit Question</button>
+	<label for="quizId">Select Quiz:</label><br>
+	<select id="quizId" required>
+	  <option value="" disabled selected>Select a quiz</option>
+	</select><br><br>    <button type="submit">Submit Question</button>
   </form>
   <script src="js/admin.js"></script>
   

@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface questionrespository extends JpaRepository<question, Long> {
 	 List<question> findByQuiz(quiz quiz);
 	List<question> findByTopic(String topic);
-
+/* is it needed i didn't use this anywhere ni service*/
 }
