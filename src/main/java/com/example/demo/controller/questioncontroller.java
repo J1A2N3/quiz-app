@@ -35,7 +35,7 @@ public class questioncontroller {
     }
 
 
-    @GetMapping("/{quizId}/questions")
+    @GetMapping("/{quizId}/question")
     public ResponseEntity<?> getQuestionsByQuiz(@PathVariable("quizId") Long quizId) {
         try {
             List<question> questions = questionService.getQuestionsByQuizId(quizId);

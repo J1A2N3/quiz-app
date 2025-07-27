@@ -29,7 +29,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 function loadQuestionsForQuiz(quizId) {
   selectedAnswers = {};
-  fetch(`https://quiz-app-2-sdfo.onrender.com/quiz/${quizId}/questions`)
+  fetch(`https://quiz-app-2-sdfo.onrender.com/question/${quizId}/question`)
     .then(res => {
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       return res.json();
